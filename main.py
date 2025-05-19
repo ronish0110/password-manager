@@ -191,18 +191,21 @@ def update_password():
 
 def edit_user():
     password = input("Entre your password to edit: ")
-    global session_password
+    global session_password, session_user
     if password == session_password:
 
-        #feature to change username is not implemented !important
-        """print(f"Username(1) : {session_user}")
+        print(f"Username(1) : {session_user}")
         print(f"Password(2) : {session_password}")
-        choice = input("What do you want to change: ")[0]"""
-
-        choice = "2"
+        choice = input("What do you want to change: ")[0]
 
         if choice == "1":
-            print("Feature for changing username is not avilable yet:(")
+            new_username = input('New Username: ').lower()
+            users = get_users()
+            users[new_username] = users[session_user]
+            del users[session_user]
+            session_user = new_username
+            update_users(users)
+
         elif choice == "2":
             new_password = input("New password: ")
             session_password = new_password
@@ -213,9 +216,6 @@ def edit_user():
             print('Password changed successfully!')
         else:
             print("Invalid option!")
-                
 
-
-
-
-start()
+if __name__ == "__main__":
+    start()
