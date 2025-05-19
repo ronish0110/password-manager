@@ -13,7 +13,7 @@ A beginner-friendly, terminal-based password manager built with Python.This app 
 
 🗃️ Add, view, update, delete, and search saved passwords
 
-👤 Edit your own password (changing username not available yet)
+👤 Edit your own username and password
 
 💡 Works entirely in the terminal
 
