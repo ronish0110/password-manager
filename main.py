@@ -2,8 +2,8 @@ import random
 import json
 from utils import encode,decode
 
-USERS_FILE = "password manager/users.json"
-PASSWORDS_FILE = "password manager/passwords.json"
+USERS_FILE = "Finished Projects/password manager/users.json"
+PASSWORDS_FILE = "Finished Projects/password manager/passwords.json"
 
 session_key = None
 session_user = None
@@ -37,7 +37,6 @@ def create_new_user():
         username = input("Enter new Username: ").lower()
         if check_for_user(username):
             print("Username already exists!")
-            
         else:
             password = input("Enter the Password: ")
             add_user(username, password)
@@ -49,6 +48,13 @@ def add_user(username, password):
     password = encode(password)
     users[username] = [password, user_key]
     update_users(users)
+    add_user_password_key(user_key, username, password)
+
+def add_user_password_key(key, name, pwd):
+    passwords = get_passwords()
+    passwords[key] = {name:pwd}
+    with open(PASSWORDS_FILE, 'w') as f:
+        json.dump(passwords, f)
     
 def update_users(new_users):
     with open(USERS_FILE, 'w') as users:
@@ -93,6 +99,7 @@ d to delete a password
 c to update a password
 n to edit user details
 h for help
+l to logout
 q to quit application""")
 
 def perform(choice):
@@ -116,8 +123,17 @@ def perform(choice):
             edit_user()
         case "a":
             add_password()
+        case "l":
+            log_out()
         case _:
             print("invlaid option")
+
+def log_out():
+    global session_password, session_key, session_user
+    print(f"Logged out of {session_user}!")
+    session_password, session_key, session_user = None, None, None
+    start()
+
 
 def add_password():
     passwords = get_users_password()
